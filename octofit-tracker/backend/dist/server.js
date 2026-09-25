@@ -8,6 +8,16 @@ const baseUrl = codespaceName
     ? `https://${codespaceName}-8000.app.github.dev`
     : `http://localhost:${port}`;
 app.use(express.json());
+app.get('/', (_request, response) => {
+    response.json({
+        name: 'OctoFit API',
+        endpoints: {
+            health: `${baseUrl}/api/health`,
+            users: `${baseUrl}/api/users`,
+            activities: `${baseUrl}/api/activities`,
+        },
+    });
+});
 app.get('/api/health', (_request, response) => {
     response.json({ status: 'ok' });
 });
