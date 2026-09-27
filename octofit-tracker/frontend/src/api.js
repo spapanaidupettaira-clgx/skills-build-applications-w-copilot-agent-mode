@@ -4,18 +4,8 @@ export const apiBaseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev/api`
   : 'http://localhost:8000/api'
 
-const codespaceApiUrls = codespaceName
-  ? {
-      activities: `https://${codespaceName}-8000.app.github.dev/api/activities/`,
-      leaderboard: `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`,
-      teams: `https://${codespaceName}-8000.app.github.dev/api/teams/`,
-      users: `https://${codespaceName}-8000.app.github.dev/api/users/`,
-      workouts: `https://${codespaceName}-8000.app.github.dev/api/workouts/`,
-    }
-  : {}
-
 export function apiUrl(resource) {
-  return codespaceApiUrls[resource] ?? `${apiBaseUrl}/${resource}/`
+  return `${apiBaseUrl}/${resource}/`
 }
 
 export function normalizeCollection(payload) {
@@ -30,8 +20,8 @@ export function normalizeCollection(payload) {
   return []
 }
 
-export async function fetchCollection(resource, signal) {
-  const response = await fetch(apiUrl(resource), { signal })
+export async function fetchCollection(resource, signal, endpoint) {
+  const response = await fetch(endpoint ?? apiUrl(resource), { signal })
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`)

@@ -1,7 +1,11 @@
 import { CollectionStatus, referenceName, useCollection } from './useCollection.jsx'
 
 function Activities() {
-  const { items, status, error } = useCollection('activities')
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+  const endpoint = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+    : undefined
+  const { items, status, error } = useCollection('activities', endpoint)
 
   return <section><header className="page-heading"><p className="eyebrow">Movement log</p><h1>Activities</h1><p>Recent workouts, duration, and points earned across every team.</p></header>
     {status !== 'success' || !items.length ? <CollectionStatus status={status} error={error} isEmpty={!items.length} noun="activities" /> :

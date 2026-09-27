@@ -1,7 +1,11 @@
 import { CollectionStatus, useCollection } from './useCollection.jsx'
 
 function Teams() {
-  const { items, status, error } = useCollection('teams')
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+  const endpoint = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+    : undefined
+  const { items, status, error } = useCollection('teams', endpoint)
 
   return <section><header className="page-heading"><p className="eyebrow">Train together</p><h1>Teams</h1><p>Meet the groups turning everyday movement into shared momentum.</p></header>
     {status !== 'success' || !items.length ? <CollectionStatus status={status} error={error} isEmpty={!items.length} noun="teams" /> :
