@@ -4,8 +4,18 @@ export const apiBaseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev/api`
   : 'http://localhost:8000/api'
 
+const codespaceApiUrls = codespaceName
+  ? {
+      activities: `https://${codespaceName}-8000.app.github.dev/api/activities/`,
+      leaderboard: `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`,
+      teams: `https://${codespaceName}-8000.app.github.dev/api/teams/`,
+      users: `https://${codespaceName}-8000.app.github.dev/api/users/`,
+      workouts: `https://${codespaceName}-8000.app.github.dev/api/workouts/`,
+    }
+  : {}
+
 export function apiUrl(resource) {
-  return `${apiBaseUrl}/${resource}/`
+  return codespaceApiUrls[resource] ?? `${apiBaseUrl}/${resource}/`
 }
 
 export function normalizeCollection(payload) {
